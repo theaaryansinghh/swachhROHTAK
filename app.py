@@ -123,6 +123,14 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/delete/<int:report_id>', methods=['POST'])
+def delete_report(report_id):
+    if not session.get('admin_logged_in'):
+        return redirect('/admin-login')
+    report = Report.query.get_or_404(report_id)
+    db.session.delete(report)
+    db.session.commit()
+    return redirect('/admin')
 
 import os
 

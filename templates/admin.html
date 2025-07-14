@@ -1,86 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin - SwachhRohtak</title>
+    <meta charset="UTF-8">
+    <title>SwachhRohtak Admin Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2fff0;
+            background-color: #e9fce9;
             padding: 20px;
         }
-        h1, h2 {
-            color: #2e7d32;
-        }
-        .stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            flex: 1;
+        h1 {
             text-align: center;
         }
         .report {
-            border: 1px solid #ccc;
+            background-color: white;
+            border-radius: 10px;
             padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            background: white;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         img {
-            max-width: 250px;
-            border-radius: 6px;
-            margin-bottom: 10px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
-        a {
-            color: #2e7d32;
+        .info {
+            margin-top: 10px;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .btn {
+            padding: 6px 12px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             text-decoration: none;
-            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
-    <h1>SwachhRohtak Admin Dashboard</h1>
-    <p><a href="/logout">Logout</a></p>
-
-    <div class="stats">
-        <div class="card">
-            <h2>Total Reports</h2>
-            <p>{{ total_reports }}</p>
-        </div>
-        <div class="card">
-            <h2>Unresolved</h2>
-            <p>{{ unresolved }}</p>
-        </div>
-        <div class="card">
-            <h2>Cleaned</h2>
-            <p>{{ cleaned }}</p>
-        </div>
-    </div>
-
-    <h2>All Reports</h2>
+    <h1>Admin Dashboard - All Reports</h1>
 
     {% for report in reports %}
     <div class="report">
-        <img src="{{ url_for('static', filename=report.photo.split('static/')[1]) }}"><br>
-        <strong>Address:</strong> {{ report.address }}<br>
-        <strong>Location:</strong> {{ report.location }}<br>
-        <strong>Comment:</strong> {{ report.comment }}<br>
-        <strong>Status:</strong> {{ report.status }}<br>
-        <strong>Time:</strong> {{ report.time }}<br>
-
-        {% if report.location and ',' in report.location %}
-            {% set lat, lon = report.location.split(',') %}
-            <a href="https://www.google.com/maps/search/?api=1&query={{ lat.strip() }},{{ lon.strip() }}" target="_blank">🧭 Navigate</a><br>
-        {% endif %}
-
-        {% if report.status != 'Cleaned' %}
-            <a href="{{ url_for('mark_cleaned', index=report.id) }}">✅ Mark as Cleaned</a>
-        {% endif %}
+        <img src="{{ url_for('static', filename='uploads/' + report.image) }}" alt="Report Image">
+        <div class="info">
+            <p><strong>Address:</strong> {{ report.address }}</p>
+            <p><strong>Location:</strong> {{ report.latitude }}, {{ report.longitude }}</p>
+            <p><strong>Comment:</strong> {{ report.comment }}</p>
+            <p><strong>Status:</strong> {{ report.status }}</p>
+            <p><strong>Time:</strong> {{ report.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+        <div class="actions">
+            {% if report.latitude and report.longitude %}
+                <a class="btn" style="background-color:#3498db;" href="https://www.google.com/maps?q={{ report.latitude }},{{ report.longitude }}" target="_blank">
+                    Navigate
+                </a>
+            {% endif %}
+            <form action="{{ url_for('delete_report', report_id=report.id) }}" method="POST" style="display:inline;">
+                <button class="btn" onclick="return confirm('Are you sure you want to delete this report?')">Delete</button>
+            </form>
+        </div>
     </div>
     {% endfor %}
 </body>
