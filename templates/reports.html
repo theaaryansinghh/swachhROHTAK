@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SwachhRohtak Reports</title>
+    <style>
+        body { font-family: Arial; background: #f7fff7; padding: 20px; }
+        .report { border: 1px solid #aaa; padding: 10px; margin-bottom: 15px; border-radius: 8px; background: #fff; }
+        img { max-width: 100%; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h2>All Reports</h2>
+    {% for report in reports %}
+    <div class="report">
+        <img src="{{ url_for('static', filename=report.photo.split('static/')[1]) }}">
+        <p><strong>Address:</strong> {{ report.address }}</p>
+        <p><strong>Location:</strong> {{ report.location }}</p>
+        <p><strong>Comment:</strong> {{ report.comment }}</p>
+        <p><strong>Status:</strong> {{ report.status }}</p>
+        <p><small><strong>Time:</strong> {{ report.time }}</small></p>
+    </div>
+    {% endfor %}
+</body>
+</html>

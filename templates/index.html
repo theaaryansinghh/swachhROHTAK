@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwachhRohtak</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Header with logo area */
+        header {
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-placeholder {
+            font-size: 36px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Main content */
+        main {
+            padding: 24px 0;
+        }
+
+        .report-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2e7d32;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            border: 2px dashed #2e7d32;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(46,125,50,0.05);
+            color: #2e7d32;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background: rgba(46,125,50,0.1);
+            border-color: #1b5e20;
+        }
+
+        .camera-icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46,125,50,0.3);
+            margin-top: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46,125,50,0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Links section */
+        .links-section {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .link-btn {
+            display: inline-block;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.9);
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .link-btn:hover {
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Location indicator */
+        .location-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 16px;
+            padding: 8px 12px;
+            background: rgba(76,175,80,0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2e7d32;
+        }
+
+        .location-icon {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 12px;
+            }
+
+            .report-card {
+                padding: 24px 20px;
+                border-radius: 16px;
+            }
+
+            .card-title {
+                font-size: 22px;
+            }
+
+            .form-input {
+                padding: 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .submit-btn {
+                padding: 16px;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading .submit-btn {
+            background: #ccc;
+        }
+
+        /* Success animation */
+        @keyframes success {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .success-animation {
+            animation: success 0.3s ease;
+        }
+        .linkedin-attribution {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .linkedin-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.9);
+            color: #2e7d32;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .linkedin-link:hover {
+            background: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo-placeholder">🌱</div>
+            </div>
+            <h1 class="app-title">SwachhRohtak</h1>
+            <p class="app-subtitle">Towards a Cleaner City, Together</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="report-card">
+                <div class="card-header">
+                    <h2 class="card-title">Report a Garbage Spot</h2>
+                    <p class="card-description">Help keep Rohtak clean by reporting uncollected garbage in your area. Just upload a photo, enter the address, and hit submit.</p>
+                </div>
+
+                <form method="POST" action="/submit" enctype="multipart/form-data" id="reportForm">
+                    <div class="form-group">
+                        <label class="form-label" for="address">📍 Address</label>
+                        <input type="text" name="address" id="address" class="form-input" placeholder="Enter the location address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">📸 Photo</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" name="photo" id="photo" class="file-input" accept="image/*" capture="environment" required>
+                            <label for="photo" class="file-input-label">
+                                <span class="camera-icon">📷</span>
+                                <span id="file-label-text">Take or Upload Photo</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="comment">💬 Comment (Optional)</label>
+                        <textarea name="comment" id="comment" class="form-input form-textarea" placeholder="Additional details about the garbage spot..."></textarea>
+                    </div>
+
+                    <input type="hidden" id="location" name="location">
+
+                    <button type="submit" class="submit-btn">
+                        <span id="btn-text">Submit Report</span>
+                    </button>
+
+                    <div class="location-status" id="locationStatus" style="display: none;">
+                        <span class="location-icon">📍</span>
+                        <span id="locationText">Getting your location...</span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="links-section">
+                <div class="links-grid">
+                    <a href="/reports" class="link-btn">📋 View Reports</a>
+                    <a href="/admin" class="link-btn">⚙️ Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get location
+        const locationStatus = document.getElementById('locationStatus');
+        const locationText = document.getElementById('locationText');
+
+        locationStatus.style.display = 'flex';
+
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                document.getElementById('location').value = `${pos.coords.latitude}, ${pos.coords.longitude}`;
+                locationText.textContent = 'Location captured successfully';
+                setTimeout(() => {
+                    locationStatus.style.display = 'none';
+                }, 2000);
+            },
+            err => {
+                console.warn("Location not available.");
+                locationText.textContent = 'Location not available';
+                locationStatus.style.backgroundColor = 'rgba(244,67,54,0.1)';
+                locationStatus.style.color = '#d32f2f';
+                setTimeout(() => {
+                    locationStatus.style.display = 'none';
+                }, 3000);
+            }
+        );
+
+        // File input handler
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Take or Upload Photo';
+            document.getElementById('file-label-text').textContent =
+                e.target.files[0] ? `📎 ${fileName}` : 'Take or Upload Photo';
+        });
+
+        // Form submission handler
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            const form = e.target;
+            const submitBtn = document.querySelector('.submit-btn');
+            const btnText = document.getElementById('btn-text');
+
+            // Add loading state
+            form.classList.add('loading');
+            btnText.textContent = 'Submitting...';
+
+            // Note: In a real app, you'd handle the actual submission here
+            // This is just for demonstration
+            setTimeout(() => {
+                form.classList.remove('loading');
+                form.classList.add('success-animation');
+                btnText.textContent = 'Report Submitted!';
+
+                setTimeout(() => {
+                    btnText.textContent = 'Submit Report';
+                    form.classList.remove('success-animation');
+                }, 2000);
+            }, 1000);
+        });
+
+        // Prevent double submission
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            const submitBtn = document.querySelector('.submit-btn');
+            if (submitBtn.disabled) {
+                e.preventDefault();
+                return false;
+            }
+            submitBtn.disabled = true;
+            setTimeout(() => {
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    </script>
+    <div class="linkedin-attribution">
+    <a href="https://www.linkedin.com/in/aaryan-singhh" target="_blank" class="linkedin-link">
+        Aaryan Singh
+    </a>
+    </div>
+</body>
+</html>
