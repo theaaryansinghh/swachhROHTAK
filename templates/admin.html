@@ -1,78 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin - SwachhRohtak</title>
+    <title>Admin Dashboard</title>
     <style>
         body {
+            background-color: #e7ffe7;
             font-family: Arial, sans-serif;
-            background-color: #f2fff0;
             padding: 20px;
         }
-        h1, h2 {
-            color: #2e7d32;
+        .report {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+            border-radius: 8px;
+        }
+        .report img {
+            max-width: 300px;
+            height: auto;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-update {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
         }
         .stats {
             display: flex;
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
             flex: 1;
             text-align: center;
-        }
-        .report {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            background: white;
-        }
-        img {
-            max-width: 250px;
-            border-radius: 6px;
-        }
-        a {
-            color: #2e7d32;
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
         }
     </style>
 </head>
 <body>
-    <h1>SwachhRohtak Admin Dashboard</h1>
-    <a href="/logout">Logout</a>
 
-    <div class="stats">
-        <div class="card">
-            <h2>Total Reports</h2>
-            <p>{{ total_reports }}</p>
-        </div>
-        <div class="card">
-            <h2>Unresolved</h2>
-            <p>{{ unresolved }}</p>
-        </div>
-        <div class="card">
-            <h2>Cleaned</h2>
-            <p>{{ cleaned }}</p>
-        </div>
+<h1>SwachhRohtak Admin Dashboard</h1>
+<a href="/logout">Logout</a>
+
+<div class="stats">
+    <div class="card">Total Reports<br>{{ total_reports }}</div>
+    <div class="card">Unresolved<br>{{ unresolved }}</div>
+    <div class="card">Cleaned<br>{{ cleaned }}</div>
+</div>
+
+<h2>All Reports</h2>
+
+{% for report in reports %}
+<div class="report">
+    <img src="{{ '/' + report.photo }}" alt="Report Photo">
+    <p><strong>Address:</strong> {{ report.address }}</p>
+    <p><strong>Location:</strong> {{ report.location }}</p>
+    <p><strong>Comment:</strong> {{ report.comment }}</p>
+    <p><strong>Status:</strong> {{ report.status }}</p>
+    <p><strong>Time:</strong> {{ report.time }}</p>
+
+    <div class="actions">
+        <form action="{{ url_for('update_status', report_id=report.id) }}" method="POST">
+            <select name="status">
+                <option value="Unresolved" {% if report.status == 'Unresolved' %}selected{% endif %}>Unresolved</option>
+                <option value="Cleaned" {% if report.status == 'Cleaned' %}selected{% endif %}>Cleaned</option>
+                <option value="Ignored" {% if report.status == 'Ignored' %}selected{% endif %}>Ignored</option>
+            </select>
+            <button type="submit" class="btn btn-update">Update</button>
+        </form>
+
+        <form action="{{ url_for('delete_report', report_id=report.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this report?');">
+            <button type="submit" class="btn btn-delete">Delete</button>
+        </form>
     </div>
+</div>
+{% endfor %}
 
-    <h2>All Reports</h2>
-
-    {% for report in reports %}
-    <div class="report">
-        <img src="{{ url_for('static', filename=report.photo.split('static/')[1]) }}"><br><br>
-        <strong>Address:</strong> {{ report.address }}<br>
-        <strong>Location:</strong> {{ report.location }}<br>
-        <strong>Comment:</strong> {{ report.comment }}<br>
-        <strong>Status:</strong> {{ report.status }}<br>
-        <strong>Time:</strong> {{ report.time }}<br>
-        {% if report.status != 'Cleaned' %}
-        <a href="{{ url_for('mark_cleaned', index=loop.index0) }}">✅ Mark as Cleaned</a>
-        {% endif %}
-    </div>
-    {% endfor %}
 </body>
 </html>

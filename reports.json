@@ -1,18 +1,1 @@
-[
-    {
-        "photo": "static/uploads/20250714080818_tileset.png",
-        "address": "circular road",
-        "comment": "",
-        "location": "28.883476517301194, 76.59080713112766",
-        "time": "2025-07-14 08:08:18",
-        "status": "Cleaned"
-    },
-    {
-        "photo": "static/uploads/20250714082310_tileset.png",
-        "address": "circular road",
-        "comment": "",
-        "location": "28.88346841550114, 76.59087667454291",
-        "time": "2025-07-14 08:23:10",
-        "status": "Cleaned"
-    }
-]
+[]
